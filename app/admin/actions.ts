@@ -1,11 +1,9 @@
 "use server";
 
-import { randomUUID } from "crypto";
-import { mkdir, writeFile } from "fs/promises";
-import path from "path";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { clearAdminSession, createAdminSession, validPassword } from "@/lib/auth";
+import { uploadSiteImage } from "@/lib/cloudinary";
 import { prisma } from "@/lib/prisma";
 
 function required(value: FormDataEntryValue | null) {
@@ -111,17 +109,12 @@ export async function uploadImageAction(formData: FormData) {
   const label = required(formData.get("label")) || "Uploaded image";
   if (!(file instanceof File) || file.size === 0) return;
 
-  const bytes = Buffer.from(await file.arrayBuffer());
-  const safeName = file.name.replace(/[^a-z0-9._-]/gi, "-").toLowerCase();
-  const filename = `${Date.now()}-${randomUUID().slice(0, 8)}-${safeName}`;
-  const uploadDir = path.join(process.cwd(), "public", "uploads");
-  await mkdir(uploadDir, { recursive: true });
-  await writeFile(path.join(uploadDir, filename), bytes);
+  const url = await uploadSiteImage(file);
 
   await prisma.siteImage.create({
     data: {
       label,
-      url: `/uploads/${filename}`,
+      url,
       alt: required(formData.get("alt")) || label,
     },
   });

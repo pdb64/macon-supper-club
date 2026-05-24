@@ -5,7 +5,7 @@ This is the maintainable full-stack version of the Claude Design export.
 ## What is included
 
 - Public supper club website using the original design assets.
-- Weekly menu stored in a SQLite database.
+- Weekly menu stored in a Postgres database.
 - Password-protected admin dashboard at `/admin`.
 - Image upload for menu/gallery images.
 - Ordering cutoff controlled by the active menu's cutoff date/time, intended for Saturday 4:00 PM ET.
@@ -15,9 +15,11 @@ This is the maintainable full-stack version of the Claude Design export.
 
 ## Local setup
 
-1. Copy `.env.example` to `.env`.
-2. Change `ADMIN_PASSWORD` and `AUTH_SECRET`.
-3. Run:
+1. Create a Neon Postgres database.
+2. Copy `.env.example` to `.env`.
+3. Add the Neon pooled connection string as `DATABASE_URL`.
+4. Change `ADMIN_PASSWORD` and `AUTH_SECRET`.
+5. Run:
 
 ```bash
 npm install
@@ -72,7 +74,24 @@ INSTAGRAM_ACCESS_TOKEN="..."
 
 If this is blank, the site still works and shows the manually uploaded gallery instead.
 
+## Cloudinary
+
+Add these for production image uploads:
+
+```bash
+CLOUDINARY_CLOUD_NAME="..."
+CLOUDINARY_API_KEY="..."
+CLOUDINARY_API_SECRET="..."
+```
+
+If these are blank, uploads are stored locally under `public/uploads`, which is only suitable for local development.
+
 ## Deployment note
 
-This first version uses local SQLite and local image uploads, which are ideal for local development and a small single-server deployment. If you deploy to Vercel or another serverless host, move the database to hosted Postgres and images to object storage such as S3, UploadThing, or Vercel Blob.
+Recommended production stack:
 
+- Vercel for hosting.
+- Neon for Postgres.
+- Cloudinary for image uploads.
+
+For `maconsupperclub.com`, add both the apex domain and `www` domain in Vercel, then update DNS in Namecheap using the records Vercel provides.

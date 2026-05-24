@@ -8,10 +8,9 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
-    "db:init": "sqlite3 prisma/dev.db < prisma/init.sql",
     "db:push": "prisma db push",
     "db:seed": "node prisma/seed.mjs",
-    "setup": "prisma generate && sqlite3 prisma/dev.db < prisma/init.sql && node prisma/seed.mjs",
+    "setup": "prisma generate && prisma db push && node prisma/seed.mjs",
     "lint": "next lint"
   },
   "keywords": [],
@@ -19,9 +18,9 @@
   "license": "UNLICENSED",
   "type": "module",
   "dependencies": {
-    "@prisma/client": "^6.19.0",
+    "@prisma/client": "5.22.0",
     "next": "^16.2.6",
-    "prisma": "^6.19.0",
+    "prisma": "5.22.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "stripe": "^22.1.1",
