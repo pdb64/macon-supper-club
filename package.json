@@ -1,0 +1,35 @@
+{
+  "name": "macon-supper-club",
+  "version": "1.0.0",
+  "description": "Macon Supper Club website and ordering backend",
+  "private": true,
+  "main": "next.config.mjs",
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "db:init": "sqlite3 prisma/dev.db < prisma/init.sql",
+    "db:push": "prisma db push",
+    "db:seed": "node prisma/seed.mjs",
+    "setup": "prisma generate && sqlite3 prisma/dev.db < prisma/init.sql && node prisma/seed.mjs",
+    "lint": "next lint"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "type": "module",
+  "dependencies": {
+    "@prisma/client": "^6.19.0",
+    "next": "^16.2.6",
+    "prisma": "^6.19.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "stripe": "^22.1.1",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "25.9.1",
+    "@types/react": "19.2.15",
+    "typescript": "6.0.3"
+  }
+}
