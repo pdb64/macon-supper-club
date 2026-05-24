@@ -6,7 +6,7 @@
   "main": "next.config.mjs",
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && prisma db push && node prisma/seed.mjs && next build",
     "start": "next start",
     "db:push": "prisma db push",
     "db:seed": "node prisma/seed.mjs",
