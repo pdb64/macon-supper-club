@@ -3,7 +3,7 @@ import { getGalleryImages, getOrderingOverride, getPublishedMenu } from "@/lib/s
 import { displayCutoff, displayDate, getOrderingState, PORTIONS } from "@/lib/ordering";
 import { formatMoney } from "@/lib/money";
 import { getInstagramPosts } from "@/lib/instagram";
-import { submitCateringInquiry, subscribeToMenuEmails } from "@/app/actions";
+import { subscribeToMenuEmails } from "@/app/actions";
 
 export const dynamic = "force-dynamic";
 
@@ -27,8 +27,9 @@ export default async function HomePage() {
           <nav className="topbar-left">
             <a href="#menu">This Week</a>
             <a href="#how">How It Works</a>
-            <a href="#catering">Catering</a>
+            <a href="/catering">Catering</a>
             <a href="#chef">The Chef</a>
+            <a href="/about">About</a>
           </nav>
           <a href="#" aria-label="Macon Supper Club">
             <img src="/design-assets/logomark.png" alt="Macon Supper Club" />
@@ -36,7 +37,7 @@ export default async function HomePage() {
           <nav className="topbar-right">
             <a href="#pickup">Pickup</a>
             <a href="#gallery">Past Suppers</a>
-            <a href="#catering">Inquire</a>
+            <a href="/catering">Inquire</a>
             <a className="reserve-pill" href="#reserve">
               Reserve
             </a>
@@ -121,19 +122,6 @@ export default async function HomePage() {
           </div>
         </section>
 
-        <section className="section statement-section blossom-section">
-          <img className="branch-accent branch-accent-left branch-accent-soft" src="/design-assets/logobranch.png" alt="" />
-          <div className="section-inner statement-inner">
-            <div className="section-eyebrow">The supper club</div>
-            <p>
-              Macon Supper Club is a culinary experience by Chef David Bartlett offering curated
-              weekly suppers, private dining, and catered events throughout Middle Georgia. Rooted
-              in Southern hospitality and restaurant-quality cooking, every menu is thoughtfully
-              prepared and designed to bring people back around the table.
-            </p>
-          </div>
-        </section>
-
         <section className="section paper blossom-section" id="menu">
           <img className="branch-accent branch-accent-right branch-accent-soft" src="/design-assets/logobranch.png" alt="" />
           <div className="section-inner">
@@ -167,168 +155,6 @@ export default async function HomePage() {
                 New supper menu coming Tuesday morning. Join the email list to get it first.
               </div>
             )}
-          </div>
-        </section>
-
-        <section className="philosophy" id="chef">
-          <div className="section-inner">
-            <h2>
-              I spent twenty years cooking for rooms full of strangers.{" "}
-              <span className="script">Now</span> I cook one Sunday supper a week for your table.
-            </h2>
-            <p className="section-sub" style={{ color: "rgba(255,250,240,.78)" }}>
-              Chef David Bartlett · Founder, Macon Supper Club
-            </p>
-          </div>
-        </section>
-
-        <section className="section blossom-section" id="how">
-          <img className="branch-accent branch-accent-left branch-accent-soft" src="/design-assets/logobranch.png" alt="" />
-          <div className="section-inner">
-            <div className="section-header">
-              <div className="section-eyebrow">How it works</div>
-              <h2 className="section-title">
-                Three quiet <span className="script">steps</span>
-              </h2>
-            </div>
-            <div className="cards-grid">
-              <div className="info-card">
-                <h3>Reserve by Saturday</h3>
-                <p>A new menu drops every Tuesday morning. Ordering closes automatically Saturday at 4:00 PM ET.</p>
-              </div>
-              <div className="info-card">
-                <h3>Cook, plate, pack</h3>
-                <p>Chef David shops, preps, and plates each supper by hand on Sunday.</p>
-              </div>
-              <div className="info-card">
-                <h3>Pickup and sit down</h3>
-                <p id="pickup">{menu?.pickupNotes ?? "Pickup Sunday, 5-6 PM ET."}</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="section signup-section paper blossom-section" id="signup">
-          <img className="branch-accent branch-accent-right branch-accent-soft" src="/design-assets/logobranch.png" alt="" />
-          <div className="section-inner signup-inner">
-            <div>
-              <div className="section-eyebrow">Tuesday mornings</div>
-              <h2 className="section-title">
-                Get the <span className="script">menu</span> first.
-              </h2>
-              <p className="section-sub">
-                Weekly supper menus, special offers, private dining notes, and upcoming events sent
-                straight to your inbox.
-              </p>
-            </div>
-            <form className="signup-form" action={subscribeToMenuEmails}>
-              <div className="field">
-                <label htmlFor="signupFirstName">First name</label>
-                <input id="signupFirstName" name="firstName" placeholder="First name" />
-              </div>
-              <div className="field">
-                <label htmlFor="signupEmail">Email</label>
-                <input id="signupEmail" name="email" type="email" placeholder="you@example.com" required />
-              </div>
-              <button className="btn-primary" type="submit">
-                Send me Tuesday menus
-              </button>
-            </form>
-          </div>
-        </section>
-
-        <section className="section paper blossom-section" id="catering">
-          <img className="branch-accent branch-accent-right" src="/design-assets/logobranch.png" alt="" />
-          <div className="section-inner">
-            <div className="catering-wrap">
-              <div>
-                <div className="section-eyebrow">Private events</div>
-                <h2 className="section-title">
-                  Catering by <span className="script">Chef David</span>
-                </h2>
-                <p className="section-sub">
-                  Supper club sensibility for birthdays, rehearsal suppers, office gatherings, and
-                  special tables across Macon. Send the basics and we will shape the menu around the
-                  room, the season, and your budget.
-                </p>
-                <div className="catering-notes">
-                  <div>
-                    <span>01</span>
-                    Menus can be plated, family-style, or pickup-ready.
-                  </div>
-                  <div>
-                    <span>02</span>
-                    We quote around guest count, service style, and ingredient needs.
-                  </div>
-                  <div>
-                    <span>03</span>
-                    Earlier inquiries give us the best shot at holding the date.
-                  </div>
-                </div>
-              </div>
-
-              <form className="checkout-panel stack catering-form" action={submitCateringInquiry}>
-                <div className="form-grid">
-                  <div className="field">
-                    <label htmlFor="cateringName">Full name</label>
-                    <input id="cateringName" name="customerName" placeholder="Full name" required />
-                  </div>
-                  <div className="field">
-                    <label htmlFor="cateringEmail">Email</label>
-                    <input id="cateringEmail" name="email" type="email" placeholder="you@example.com" required />
-                  </div>
-                  <div className="field">
-                    <label htmlFor="cateringPhone">Phone</label>
-                    <input id="cateringPhone" name="phone" placeholder="(478) 555-0123" required />
-                  </div>
-                  <div className="field">
-                    <label htmlFor="eventDate">Event date</label>
-                    <input id="eventDate" name="eventDate" type="date" />
-                  </div>
-                  <div className="field">
-                    <label htmlFor="eventTime">Event time</label>
-                    <input id="eventTime" name="eventTime" placeholder="6 PM" />
-                  </div>
-                  <div className="field">
-                    <label htmlFor="guestCount">Number of people</label>
-                    <input id="guestCount" name="guestCount" type="number" min="1" placeholder="24" />
-                  </div>
-                  <div className="field">
-                    <label htmlFor="eventType">Event type</label>
-                    <select id="eventType" name="eventType" defaultValue="">
-                      <option value="" disabled>
-                        Select one
-                      </option>
-                      <option>Private supper</option>
-                      <option>Birthday</option>
-                      <option>Rehearsal supper</option>
-                      <option>Corporate meal</option>
-                      <option>Pickup catering</option>
-                      <option>Other</option>
-                    </select>
-                  </div>
-                  <div className="field">
-                    <label htmlFor="budget">Budget</label>
-                    <input id="budget" name="budget" placeholder="$75 pp / $2,500" />
-                  </div>
-                  <div className="field full">
-                    <label htmlFor="location">Event address or venue</label>
-                    <input id="location" name="location" placeholder="Venue, address, or TBD" />
-                  </div>
-                  <div className="field full">
-                    <label htmlFor="cateringNotes">Tell us about the table</label>
-                    <textarea
-                      id="cateringNotes"
-                      name="notes"
-                      placeholder="Occasion, style of service, allergies, menu ideas, kitchen access, timing, and anything else we should know."
-                    />
-                  </div>
-                </div>
-                <button className="btn-primary" type="submit">
-                  Send catering inquiry
-                </button>
-              </form>
-            </div>
           </div>
         </section>
 
@@ -407,6 +233,73 @@ export default async function HomePage() {
           </div>
         </section>
 
+        <section className="philosophy" id="chef">
+          <div className="section-inner">
+            <h2>
+              I spent twenty years cooking for rooms full of strangers.{" "}
+              <span className="script">Now</span> I cook one Sunday supper a week for your table.
+            </h2>
+            <p className="section-sub" style={{ color: "rgba(255,250,240,.78)" }}>
+              Chef David Bartlett · Founder, Macon Supper Club
+            </p>
+          </div>
+        </section>
+
+        <section className="section blossom-section" id="how">
+          <img className="branch-accent branch-accent-left branch-accent-soft" src="/design-assets/logobranch.png" alt="" />
+          <div className="section-inner">
+            <div className="section-header">
+              <div className="section-eyebrow">How it works</div>
+              <h2 className="section-title">
+                Three quiet <span className="script">steps</span>
+              </h2>
+            </div>
+            <div className="cards-grid">
+              <div className="info-card">
+                <h3>Reserve by Saturday</h3>
+                <p>A new menu drops every Tuesday morning. Ordering closes automatically Saturday at 4:00 PM ET.</p>
+              </div>
+              <div className="info-card">
+                <h3>Cook, plate, pack</h3>
+                <p>Chef David shops, preps, and plates each supper by hand on Sunday.</p>
+              </div>
+              <div className="info-card">
+                <h3>Pickup and sit down</h3>
+                <p id="pickup">{menu?.pickupNotes ?? "Pickup Sunday, 5-6 PM ET."}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="section signup-section paper blossom-section" id="signup">
+          <img className="branch-accent branch-accent-right branch-accent-soft" src="/design-assets/logobranch.png" alt="" />
+          <div className="section-inner signup-inner">
+            <div>
+              <div className="section-eyebrow">Tuesday mornings</div>
+              <h2 className="section-title">
+                Get the <span className="script">menu</span> first.
+              </h2>
+              <p className="section-sub">
+                Weekly supper menus, special offers, private dining notes, and upcoming events sent
+                straight to your inbox.
+              </p>
+            </div>
+            <form className="signup-form" action={subscribeToMenuEmails}>
+              <div className="field">
+                <label htmlFor="signupFirstName">First name</label>
+                <input id="signupFirstName" name="firstName" placeholder="First name" />
+              </div>
+              <div className="field">
+                <label htmlFor="signupEmail">Email</label>
+                <input id="signupEmail" name="email" type="email" placeholder="you@example.com" required />
+              </div>
+              <button className="btn-primary" type="submit">
+                Send the weekly menu
+              </button>
+            </form>
+          </div>
+        </section>
+
         <section className="landmarks-band" aria-label="Macon landmarks">
           <div className="landmarks-inner">
             <div className="landmarks-copy">
@@ -417,6 +310,26 @@ export default async function HomePage() {
             </div>
             <div className="landmarks-lineup">
               <MaconLandmarkRibbon />
+            </div>
+          </div>
+        </section>
+
+        <section className="section catering-cta-section">
+          <div className="section-inner split-cta">
+            <div>
+              <div className="section-eyebrow">Private dining and catering</div>
+              <h2 className="section-title">
+                Bring the supper club to <span className="script">your</span> table.
+              </h2>
+            </div>
+            <div className="split-cta-copy">
+              <p className="section-sub">
+                Birthdays, rehearsal suppers, office gatherings, pickup catering, and private
+                tables across Middle Georgia.
+              </p>
+              <a className="btn-secondary" href="/catering">
+                Plan a private event
+              </a>
             </div>
           </div>
         </section>

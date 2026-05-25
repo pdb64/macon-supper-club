@@ -1,8 +1,9 @@
 :root {
-  --paper: #f8ece9;
-  --cream: #fff8f3;
-  --cream-2: #efd8d2;
-  --blush: #f3c9c8;
+  --paper: #faeee5;
+  --cream: #fff8ee;
+  --cream-2: #f0ddd0;
+  --blush: #f1c6c0;
+  --peach: #f4c7aa;
   --forest: #1c3527;
   --forest-deep: #0f1912;
   --moss: #5e735b;
@@ -29,7 +30,9 @@ html {
 body {
   margin: 0;
   background:
-    radial-gradient(circle at 12% 8%, rgba(243, 201, 200, 0.24), transparent 32%),
+    radial-gradient(circle at 12% 8%, rgba(241, 198, 192, 0.18), transparent 32%),
+    radial-gradient(circle at 82% 18%, rgba(244, 199, 170, 0.18), transparent 30%),
+    linear-gradient(135deg, #fff8ee 0%, #faeee5 48%, #f8efe8 100%),
     var(--paper);
   color: var(--ink);
   font-family: var(--font-body);
@@ -50,7 +53,7 @@ a {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgba(248, 236, 233, 0.93);
+  background: rgba(250, 238, 229, 0.93);
   border-bottom: 1px solid var(--rule);
   backdrop-filter: blur(12px);
 }
@@ -356,7 +359,9 @@ h1 {
 }
 
 .paper {
-  background: var(--cream);
+  background:
+    linear-gradient(135deg, rgba(255, 248, 238, 0.94), rgba(250, 238, 229, 0.74)),
+    var(--cream);
 }
 
 .section-header {
@@ -375,26 +380,6 @@ h1 {
   font-size: 19px;
   line-height: 1.58;
   color: var(--muted);
-}
-
-.statement-section {
-  padding: 70px 32px;
-}
-
-.statement-inner {
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-  padding: 38px 0;
-}
-
-.statement-inner p {
-  max-width: 940px;
-  margin: 14px auto 0;
-  color: var(--forest);
-  font-family: var(--font-display);
-  font-size: clamp(26px, 3.3vw, 44px);
-  line-height: 1.18;
-  text-align: center;
 }
 
 .centered-notice {
@@ -538,7 +523,7 @@ h1 {
 
 .signup-section {
   background:
-    linear-gradient(135deg, rgba(243, 201, 200, 0.28), rgba(255, 248, 243, 0.88)),
+    linear-gradient(135deg, rgba(241, 198, 192, 0.18), rgba(244, 199, 170, 0.18), rgba(255, 248, 238, 0.88)),
     var(--cream);
 }
 
@@ -555,6 +540,36 @@ h1 {
   border: 1px solid var(--rule);
   background: rgba(255, 248, 243, 0.74);
   padding: 24px;
+}
+
+.split-cta {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(340px, 0.6fr);
+  gap: 42px;
+  align-items: center;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 36px 0;
+}
+
+.split-cta-copy {
+  display: grid;
+  gap: 16px;
+}
+
+.split-cta-copy .btn-secondary {
+  justify-self: start;
+}
+
+.page-title {
+  max-width: 900px;
+  font-size: clamp(48px, 6vw, 88px);
+  line-height: 0.95;
+}
+
+.about-page {
+  display: grid;
+  gap: 22px;
 }
 
 .catering-wrap {
@@ -897,6 +912,7 @@ textarea {
   .admin-grid,
   .catering-wrap,
   .signup-inner,
+  .split-cta,
   .ig-grid {
     grid-template-columns: 1fr;
   }
