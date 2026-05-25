@@ -68,6 +68,23 @@ model Setting {
   updatedAt DateTime @updatedAt
 }
 
+model CateringInquiry {
+  id           String        @id @default(cuid())
+  customerName String
+  email        String
+  phone        String
+  eventDate    DateTime?
+  eventTime    String?
+  guestCount   Int?
+  budget       String?
+  eventType    String?
+  location     String?
+  notes        String?
+  status       InquiryStatus @default(NEW)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
 enum MenuStatus {
   DRAFT
   PUBLISHED
@@ -79,4 +96,11 @@ enum OrderStatus {
   PAID
   CANCELED
   REFUNDED
+}
+
+enum InquiryStatus {
+  NEW
+  CONTACTED
+  BOOKED
+  DECLINED
 }

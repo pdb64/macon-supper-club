@@ -2,6 +2,7 @@ import { getGalleryImages, getPublishedMenu } from "@/lib/site";
 import { displayCutoff, displayDate, getOrderingState, PORTIONS } from "@/lib/ordering";
 import { formatMoney } from "@/lib/money";
 import { getInstagramPosts } from "@/lib/instagram";
+import { submitCateringInquiry } from "@/app/actions";
 
 export const dynamic = "force-dynamic";
 
@@ -20,6 +21,7 @@ export default async function HomePage() {
           <nav className="topbar-left">
             <a href="#menu">This Week</a>
             <a href="#how">How It Works</a>
+            <a href="#catering">Catering</a>
             <a href="#chef">The Chef</a>
           </nav>
           <a href="#" aria-label="Macon Supper Club">
@@ -28,6 +30,7 @@ export default async function HomePage() {
           <nav className="topbar-right">
             <a href="#pickup">Pickup</a>
             <a href="#gallery">Past Suppers</a>
+            <a href="#catering">Inquire</a>
             <a className="reserve-pill" href="#reserve">
               Reserve
             </a>
@@ -36,7 +39,9 @@ export default async function HomePage() {
       </header>
 
       <main>
-        <section className="hero">
+        <section className="hero blossom-section">
+          <img className="branch-accent branch-accent-left" src="/design-assets/logobranch.png" alt="" />
+          <img className="branch-accent branch-accent-right" src="/design-assets/logobranch.png" alt="" />
           <div className="hero-inner">
             <div>
               <div className="eyebrow">Chef David Bartlett · Macon, Georgia</div>
@@ -99,7 +104,8 @@ export default async function HomePage() {
           </div>
         </section>
 
-        <section className="section paper" id="menu">
+        <section className="section paper blossom-section" id="menu">
+          <img className="branch-accent branch-accent-right branch-accent-soft" src="/design-assets/logobranch.png" alt="" />
           <div className="section-inner">
             <div className="section-header">
               <div className="section-eyebrow">This week · {sundayLabel}</div>
@@ -142,7 +148,8 @@ export default async function HomePage() {
           </div>
         </section>
 
-        <section className="section" id="how">
+        <section className="section blossom-section" id="how">
+          <img className="branch-accent branch-accent-left branch-accent-soft" src="/design-assets/logobranch.png" alt="" />
           <div className="section-inner">
             <div className="section-header">
               <div className="section-eyebrow">How it works</div>
@@ -163,6 +170,101 @@ export default async function HomePage() {
                 <h3>Pickup and sit down</h3>
                 <p id="pickup">{menu?.pickupNotes ?? "Pickup Sunday, 5-6pm ET."}</p>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="section paper blossom-section" id="catering">
+          <img className="branch-accent branch-accent-right" src="/design-assets/logobranch.png" alt="" />
+          <div className="section-inner">
+            <div className="catering-wrap">
+              <div>
+                <div className="section-eyebrow">Private events</div>
+                <h2 className="section-title">
+                  Catering by <span className="script">Chef David</span>
+                </h2>
+                <p className="section-sub">
+                  Supper club sensibility for birthdays, rehearsal dinners, office gatherings, and
+                  special tables across Macon. Send the basics and we will shape the menu around the
+                  room, the season, and your budget.
+                </p>
+                <div className="catering-notes">
+                  <div>
+                    <span>01</span>
+                    Menus can be plated, family-style, or pickup-ready.
+                  </div>
+                  <div>
+                    <span>02</span>
+                    We quote around guest count, service style, and ingredient needs.
+                  </div>
+                  <div>
+                    <span>03</span>
+                    Earlier inquiries give us the best shot at holding the date.
+                  </div>
+                </div>
+              </div>
+
+              <form className="checkout-panel stack catering-form" action={submitCateringInquiry}>
+                <div className="form-grid">
+                  <div className="field">
+                    <label htmlFor="cateringName">Full name</label>
+                    <input id="cateringName" name="customerName" required />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="cateringEmail">Email</label>
+                    <input id="cateringEmail" name="email" type="email" required />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="cateringPhone">Phone</label>
+                    <input id="cateringPhone" name="phone" required />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="eventDate">Event date</label>
+                    <input id="eventDate" name="eventDate" type="date" />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="eventTime">Event time</label>
+                    <input id="eventTime" name="eventTime" placeholder="Cocktails at 6, dinner at 7" />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="guestCount">Number of people</label>
+                    <input id="guestCount" name="guestCount" type="number" min="1" placeholder="24" />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="eventType">Event type</label>
+                    <select id="eventType" name="eventType" defaultValue="">
+                      <option value="" disabled>
+                        Select one
+                      </option>
+                      <option>Private dinner</option>
+                      <option>Birthday</option>
+                      <option>Rehearsal dinner</option>
+                      <option>Corporate meal</option>
+                      <option>Pickup catering</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                  <div className="field">
+                    <label htmlFor="budget">Budget</label>
+                    <input id="budget" name="budget" placeholder="$1,500-$2,500" />
+                  </div>
+                  <div className="field full">
+                    <label htmlFor="location">Event location</label>
+                    <input id="location" name="location" placeholder="Home, venue, office, or still deciding" />
+                  </div>
+                  <div className="field full">
+                    <label htmlFor="cateringNotes">Tell us about the table</label>
+                    <textarea
+                      id="cateringNotes"
+                      name="notes"
+                      placeholder="Occasion, style of service, allergies, menu ideas, kitchen access, timing, and anything else we should know."
+                    />
+                  </div>
+                </div>
+                <button className="btn-primary" type="submit">
+                  Send catering inquiry
+                </button>
+              </form>
             </div>
           </div>
         </section>
@@ -238,7 +340,8 @@ export default async function HomePage() {
           </div>
         </section>
 
-        <section className="section" id="gallery">
+        <section className="section blossom-section" id="gallery">
+          <img className="branch-accent branch-accent-left branch-accent-soft" src="/design-assets/logobranch.png" alt="" />
           <div className="section-inner">
             <div className="section-header">
               <div className="section-eyebrow">Past suppers</div>
@@ -246,10 +349,22 @@ export default async function HomePage() {
                 From the <span className="script">kitchen</span>
               </h2>
             </div>
-            <div className="gallery-grid">
-              {gallery.map((image) => (
-                <img key={image.id} src={image.url} alt={image.alt ?? image.label} />
+            <div className="gallery-slider" style={{ "--slide-count": gallery.length || 1 } as React.CSSProperties}>
+              {gallery.map((image, index) => (
+                <figure
+                  className="gallery-slide"
+                  key={image.id}
+                  style={{ "--slide-index": index } as React.CSSProperties}
+                >
+                  <img src={image.url} alt={image.alt ?? image.label} />
+                  <figcaption>{image.label}</figcaption>
+                </figure>
               ))}
+              <div className="slider-dots" aria-hidden="true">
+                {gallery.map((image) => (
+                  <span key={image.id} />
+                ))}
+              </div>
             </div>
           </div>
         </section>

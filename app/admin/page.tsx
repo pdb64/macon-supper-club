@@ -19,6 +19,10 @@ export default async function AdminPage() {
     orderBy: { createdAt: "desc" },
     take: 40,
   });
+  const inquiries = await prisma.cateringInquiry.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 50,
+  });
 
   const paidTotal = orders
     .filter((order) => order.status === "PAID")
@@ -58,9 +62,63 @@ export default async function AdminPage() {
             <h2>{formatMoney(paidTotal)}</h2>
             <p className="muted">{orders.filter((order) => order.status === "PAID").length} paid orders</p>
           </div>
+          <div className="admin-card">
+            <div className="admin-kicker">Catering</div>
+            <h2>{inquiries.length}</h2>
+            <p className="muted">Recent private event inquiries</p>
+          </div>
         </div>
 
         {menu && <MenuEditor menu={menu} images={images} />}
+
+        <section className="admin-card stack">
+          <div>
+            <div className="admin-kicker">Catering</div>
+            <h2>Private event inquiries</h2>
+          </div>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Guest</th>
+                <th>Event</th>
+                <th>Budget</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              {inquiries.map((inquiry) => (
+                <tr key={inquiry.id}>
+                  <td>
+                    <span className="status">{inquiry.status}</span>
+                  </td>
+                  <td>
+                    <strong>{inquiry.customerName}</strong>
+                    <br />
+                    <span className="muted">{inquiry.email}</span>
+                    <br />
+                    <span className="muted">{inquiry.phone}</span>
+                  </td>
+                  <td>
+                    {inquiry.eventType || <span className="muted">Event type TBD</span>}
+                    <br />
+                    <span className="muted">
+                      {inquiry.eventDate ? displayDate(inquiry.eventDate) : "Date TBD"}
+                      {inquiry.eventTime ? ` · ${inquiry.eventTime}` : ""}
+                    </span>
+                    <br />
+                    <span className="muted">
+                      {inquiry.guestCount ? `${inquiry.guestCount} guests` : "Guest count TBD"}
+                      {inquiry.location ? ` · ${inquiry.location}` : ""}
+                    </span>
+                  </td>
+                  <td>{inquiry.budget || <span className="muted">TBD</span>}</td>
+                  <td>{inquiry.notes || <span className="muted">None</span>}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
 
         <section className="admin-card stack">
           <div>
@@ -110,4 +168,3 @@ export default async function AdminPage() {
     </div>
   );
 }
-
