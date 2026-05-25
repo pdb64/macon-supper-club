@@ -208,15 +208,15 @@ export default async function HomePage() {
                 <div className="form-grid">
                   <div className="field">
                     <label htmlFor="cateringName">Full name</label>
-                    <input id="cateringName" name="customerName" required />
+                    <input id="cateringName" name="customerName" placeholder="Patrick Bartlett" required />
                   </div>
                   <div className="field">
                     <label htmlFor="cateringEmail">Email</label>
-                    <input id="cateringEmail" name="email" type="email" required />
+                    <input id="cateringEmail" name="email" type="email" placeholder="you@example.com" required />
                   </div>
                   <div className="field">
                     <label htmlFor="cateringPhone">Phone</label>
-                    <input id="cateringPhone" name="phone" required />
+                    <input id="cateringPhone" name="phone" placeholder="(478) 555-0123" required />
                   </div>
                   <div className="field">
                     <label htmlFor="eventDate">Event date</label>
@@ -224,7 +224,7 @@ export default async function HomePage() {
                   </div>
                   <div className="field">
                     <label htmlFor="eventTime">Event time</label>
-                    <input id="eventTime" name="eventTime" placeholder="Cocktails at 6, dinner at 7" />
+                    <input id="eventTime" name="eventTime" placeholder="6 PM cocktails, 7 PM dinner" />
                   </div>
                   <div className="field">
                     <label htmlFor="guestCount">Number of people</label>
@@ -246,11 +246,11 @@ export default async function HomePage() {
                   </div>
                   <div className="field">
                     <label htmlFor="budget">Budget</label>
-                    <input id="budget" name="budget" placeholder="$1,500-$2,500" />
+                    <input id="budget" name="budget" placeholder="$75/person or $2,500 total" />
                   </div>
                   <div className="field full">
-                    <label htmlFor="location">Event location</label>
-                    <input id="location" name="location" placeholder="Home, venue, office, or still deciding" />
+                    <label htmlFor="location">Event address or venue</label>
+                    <input id="location" name="location" placeholder="Home address, venue name, or still deciding" />
                   </div>
                   <div className="field full">
                     <label htmlFor="cateringNotes">Tell us about the table</label>
@@ -310,19 +310,22 @@ export default async function HomePage() {
                 </div>
                 <div className="field">
                   <label htmlFor="tip">Optional chef tip</label>
-                  <input id="tip" name="tipDollars" type="number" min="0" step="1" placeholder="0" disabled={!ordering.open} />
+                  <div className="money-field">
+                    <span>$</span>
+                    <input id="tip" name="tipDollars" type="number" min="0" step="1" placeholder="0" disabled={!ordering.open} />
+                  </div>
                 </div>
                 <div className="field">
                   <label htmlFor="customerName">Full name</label>
-                  <input id="customerName" name="customerName" required disabled={!ordering.open} />
+                  <input id="customerName" name="customerName" placeholder="Patrick Bartlett" required disabled={!ordering.open} />
                 </div>
                 <div className="field">
                   <label htmlFor="customerEmail">Email</label>
-                  <input id="customerEmail" name="customerEmail" type="email" required disabled={!ordering.open} />
+                  <input id="customerEmail" name="customerEmail" type="email" placeholder="you@example.com" required disabled={!ordering.open} />
                 </div>
                 <div className="field">
                   <label htmlFor="customerPhone">Phone</label>
-                  <input id="customerPhone" name="customerPhone" required disabled={!ordering.open} />
+                  <input id="customerPhone" name="customerPhone" placeholder="(478) 555-0123" required disabled={!ordering.open} />
                 </div>
                 <div className="field">
                   <label htmlFor="allergens">Allergies</label>
@@ -337,6 +340,39 @@ export default async function HomePage() {
                 Continue to secure checkout
               </button>
             </form>
+          </div>
+        </section>
+
+        <section className="landmarks-band" aria-label="Macon landmarks">
+          <div className="landmarks-inner">
+            <div className="landmarks-copy">
+              <div className="section-eyebrow">Made in Macon</div>
+              <h2>
+                A table with a little <span className="script">city</span> in it.
+              </h2>
+            </div>
+            <div className="landmarks-lineup">
+              <div className="landmark">
+                <span className="landmark-shape theater" />
+                <strong>Douglass Theatre</strong>
+              </div>
+              <div className="landmark">
+                <span className="landmark-shape mercer" />
+                <strong>Mercer University</strong>
+              </div>
+              <div className="landmark">
+                <span className="landmark-shape big-house" />
+                <strong>The Big House</strong>
+              </div>
+              <div className="landmark">
+                <span className="landmark-shape capricorn" />
+                <strong>Capricorn Records</strong>
+              </div>
+              <div className="landmark">
+                <span className="landmark-shape church" />
+                <strong>St. Joseph's</strong>
+              </div>
+            </div>
           </div>
         </section>
 
