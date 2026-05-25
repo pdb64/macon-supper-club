@@ -6,6 +6,8 @@ import { submitCateringInquiry } from "@/app/actions";
 
 export const dynamic = "force-dynamic";
 
+const INSTAGRAM_URL = "https://www.instagram.com/maconsupperclub/";
+
 export default async function HomePage() {
   const menu = await getPublishedMenu();
   const gallery = await getGalleryImages();
@@ -395,16 +397,21 @@ export default async function HomePage() {
             {instagram.length > 0 ? (
               <div className="ig-grid">
                 {instagram.map((post) => (
-                  <a className="ig-card" href={post.permalink} key={post.id}>
+                  <a className="ig-card" href={post.permalink} key={post.id} target="_blank" rel="noreferrer">
                     {post.media_url && <img src={post.media_url} alt={post.caption ?? "Instagram post"} />}
                   </a>
                 ))}
               </div>
             ) : (
-              <p className="section-sub" style={{ textAlign: "center" }}>
-                Add an Instagram access token when you are ready; until then this section can be
-                managed with uploaded gallery images.
-              </p>
+              <div className="instagram-link-panel">
+                <p className="section-sub">
+                  Follow along for weekly menus, pickup notes, catering tables, and the little
+                  behind-the-scenes moments from the kitchen.
+                </p>
+                <a className="btn-secondary" href={INSTAGRAM_URL} target="_blank" rel="noreferrer">
+                  Follow @maconsupperclub
+                </a>
+              </div>
             )}
           </div>
         </section>

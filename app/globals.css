@@ -468,6 +468,17 @@ h1 {
   display: block;
 }
 
+.instagram-link-panel {
+  width: min(640px, 100%);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.instagram-link-panel .btn-secondary {
+  display: inline-flex;
+  margin-top: 12px;
+}
+
 .catering-wrap {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(420px, 1fr);
