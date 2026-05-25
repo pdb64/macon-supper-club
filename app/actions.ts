@@ -28,21 +28,45 @@ export async function submitCateringInquiry(formData: FormData) {
     redirect("/?catering=missing#catering");
   }
 
-  await prisma.cateringInquiry.create({
-    data: {
-      customerName,
-      email,
-      phone,
-      eventDate: optionalDate(text(formData.get("eventDate"))),
-      eventTime: text(formData.get("eventTime")) || null,
-      guestCount: optionalInt(text(formData.get("guestCount"))),
-      budget: text(formData.get("budget")) || null,
-      eventType: text(formData.get("eventType")) || null,
-      location: text(formData.get("location")) || null,
-      notes: text(formData.get("notes")) || null,
-    },
-  });
+  try {
+    await prisma.cateringInquiry.create({
+      data: {
+        customerName,
+        email,
+        phone,
+        eventDate: optionalDate(text(formData.get("eventDate"))),
+        eventTime: text(formData.get("eventTime")) || null,
+        guestCount: optionalInt(text(formData.get("guestCount"))),
+        budget: text(formData.get("budget")) || null,
+        eventType: text(formData.get("eventType")) || null,
+        location: text(formData.get("location")) || null,
+        notes: text(formData.get("notes")) || null,
+      },
+    });
+  } catch {
+    redirect("/catering-thank-you?setup=1");
+  }
 
   redirect("/catering-thank-you");
 }
 
+export async function subscribeToMenuEmails(formData: FormData) {
+  const email = text(formData.get("email")).toLowerCase();
+  const firstName = text(formData.get("firstName"));
+
+  if (!email) {
+    redirect("/?signup=missing#signup");
+  }
+
+  try {
+    await (prisma as any).emailSubscriber.upsert({
+      where: { email },
+      update: { firstName: firstName || null, source: "homepage" },
+      create: { email, firstName: firstName || null, source: "homepage" },
+    });
+  } catch {
+    redirect("/email-thank-you?setup=1");
+  }
+
+  redirect("/email-thank-you");
+}

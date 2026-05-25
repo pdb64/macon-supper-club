@@ -39,6 +39,12 @@ export function MenuEditor({
         <h2>Edit menu and ordering</h2>
       </div>
 
+      <div className="notice">
+        Weekly rhythm: publish the next supper manually when it is ready. Menus are announced
+        Tuesday morning, ordering closes Saturday at 4:00 PM ET, and the public site stops showing
+        the old menu Sunday at 12:01 AM ET.
+      </div>
+
       <form className="form-grid" action={updateMenuAction}>
         <input type="hidden" name="menuId" value={menu.id} />
         <div className="field">
@@ -82,7 +88,7 @@ export function MenuEditor({
           <input
             name="overrideMessage"
             defaultValue={orderingOverride.message}
-            placeholder="Closed this week for a private event. New menu opens Monday."
+            placeholder="Closed this week for a private event. New menu drops Tuesday morning."
           />
         </div>
         <label className="row field full" style={{ display: "flex" }}>

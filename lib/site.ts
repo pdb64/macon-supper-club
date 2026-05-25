@@ -1,11 +1,14 @@
 import { prisma } from "@/lib/prisma";
+import { isMenuCurrent } from "@/lib/ordering";
 
 export async function getPublishedMenu() {
-  return prisma.menu.findFirst({
+  const menus = await prisma.menu.findMany({
     where: { status: "PUBLISHED" },
     include: { items: { orderBy: { sortOrder: "asc" } } },
     orderBy: { sundayDate: "asc" },
+    take: 8,
   });
+  return menus.find((menu) => isMenuCurrent(menu)) ?? null;
 }
 
 export async function getGalleryImages() {

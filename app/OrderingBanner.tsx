@@ -45,11 +45,11 @@ export function OrderingBanner({
 
   const message = useMemo(() => {
     if (overrideClosed) {
-      return overrideMessage || "Ordering is paused this week. Check back Monday for the next menu.";
+      return overrideMessage || "Ordering is paused this week. Check back Tuesday morning for the next menu.";
     }
 
     if (!open) {
-      return `${reason} The next menu reopens Monday.`;
+      return reason || "New menu coming Tuesday morning.";
     }
 
     if (showCountdown && remainingMs !== null) {

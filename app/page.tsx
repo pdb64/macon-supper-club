@@ -3,7 +3,7 @@ import { getGalleryImages, getOrderingOverride, getPublishedMenu } from "@/lib/s
 import { displayCutoff, displayDate, getOrderingState, PORTIONS } from "@/lib/ordering";
 import { formatMoney } from "@/lib/money";
 import { getInstagramPosts } from "@/lib/instagram";
-import { submitCateringInquiry } from "@/app/actions";
+import { submitCateringInquiry, subscribeToMenuEmails } from "@/app/actions";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +18,7 @@ export default async function HomePage() {
   const sundayLabel = menu ? displayDate(menu.sundayDate) : "Next Sunday";
   const cutoffLabel = menu ? displayCutoff(menu.cutoffAt) : "Saturday at 4:00 PM ET";
   const paymentsReady = Boolean(process.env.STRIPE_SECRET_KEY);
+  const menuItems = menu?.items ?? [];
 
   return (
     <>
@@ -51,13 +52,15 @@ export default async function HomePage() {
             <div>
               <div className="eyebrow">Chef David Bartlett · Macon, Georgia</div>
               <h1>
-                <span className="script">A</span> Sunday
+                Chef-driven dining
                 <br />
-                well set.
+                experiences, made
+                <br />
+                for <span className="script">gathering.</span>
               </h1>
               <p className="hero-lede">
-                A weekly private-chef supper, plated by hand, served the way Macon used to serve
-                dinner: slowly, generously, around a table that belongs to you.
+                Weekly suppers, private dining, and catered events rooted in Southern hospitality
+                and restaurant-quality cooking.
               </p>
               <OrderingBanner
                 sundayLabel={sundayLabel}
@@ -70,7 +73,7 @@ export default async function HomePage() {
               />
               <div className="hero-cta-row">
                 <a className="btn-primary" href="#reserve">
-                  Reserve This Sunday
+                  Reserve This Supper
                 </a>
                 <a className="btn-ghost" href="#menu">
                   See the menu
@@ -95,19 +98,41 @@ export default async function HomePage() {
             <aside className="menu-card">
               <div className="menu-card-head">
                 <img src="/design-assets/logomark.png" alt="Macon Supper Club" />
-                <div className="sunday">{menu?.title ?? "Sunday Supper"}</div>
-                <div className="date">{sundayLabel}</div>
+                <div className="sunday">{menu?.title ?? "New menu coming"}</div>
+                <div className="date">{menu ? sundayLabel : "Tuesday morning"}</div>
               </div>
               <div className="menu-rule" />
-              {(menu?.items ?? []).slice(0, 5).map((item) => (
-                <div className="menu-item" key={item.id}>
-                  <div className="menu-item-name">{item.name}</div>
-                  <div className="menu-item-desc">{item.description}</div>
+              {menuItems.length > 0 ? (
+                menuItems.slice(0, 5).map((item) => (
+                  <div className="menu-item" key={item.id}>
+                    <div className="menu-item-name">{item.name}</div>
+                    <div className="menu-item-desc">{item.description}</div>
+                  </div>
+                ))
+              ) : (
+                <div className="menu-item">
+                  <div className="menu-item-name">Menus drop Tuesday mornings</div>
+                  <div className="menu-item-desc">
+                    Join the list below and we will send the next supper straight to your inbox.
+                  </div>
                 </div>
-              ))}
+              )}
               <div className="menu-rule" />
               <div className="date">To reserve · maconsupper.com</div>
             </aside>
+          </div>
+        </section>
+
+        <section className="section statement-section blossom-section">
+          <img className="branch-accent branch-accent-left branch-accent-soft" src="/design-assets/logobranch.png" alt="" />
+          <div className="section-inner statement-inner">
+            <div className="section-eyebrow">The supper club</div>
+            <p>
+              Macon Supper Club is a culinary experience by Chef David Bartlett offering curated
+              weekly suppers, private dining, and catered events throughout Middle Georgia. Rooted
+              in Southern hospitality and restaurant-quality cooking, every menu is thoughtfully
+              prepared and designed to bring people back around the table.
+            </p>
           </div>
         </section>
 
@@ -115,34 +140,42 @@ export default async function HomePage() {
           <img className="branch-accent branch-accent-right branch-accent-soft" src="/design-assets/logobranch.png" alt="" />
           <div className="section-inner">
             <div className="section-header">
-              <div className="section-eyebrow">This week · {sundayLabel}</div>
+              <div className="section-eyebrow">{menu ? `This week · ${sundayLabel}` : "New menu coming Tuesday"}</div>
               <h2 className="section-title">
                 <span className="script">On the</span> table
               </h2>
               <p className="section-sub">
-                Five courses, packed for your kitchen but plated to feel like ours.
+                {menu
+                  ? "Five courses, packed for your kitchen but plated to feel like ours."
+                  : "Last week's menu comes down Sunday morning. The next supper drops Tuesday morning."}
               </p>
             </div>
 
-            <div className="menu-rows">
-              {(menu?.items ?? []).map((item, index) => (
-                <div className={`menu-row ${item.imageUrl ? "" : "without-image"}`} key={item.id}>
-                  <div className="menu-row-num">{String(index + 1).padStart(2, "0")}</div>
-                  {item.imageUrl && <img className="menu-row-img" src={item.imageUrl} alt={item.name} />}
-                  <div>
-                    <div className="menu-row-title">{item.name}</div>
-                    <div className="menu-row-desc">{item.description}</div>
+            {menuItems.length > 0 ? (
+              <div className="menu-rows">
+                {menuItems.map((item, index) => (
+                  <div className={`menu-row ${item.imageUrl ? "" : "without-image"}`} key={item.id}>
+                    <div className="menu-row-num">{String(index + 1).padStart(2, "0")}</div>
+                    {item.imageUrl && <img className="menu-row-img" src={item.imageUrl} alt={item.name} />}
+                    <div>
+                      <div className="menu-row-title">{item.name}</div>
+                      <div className="menu-row-desc">{item.description}</div>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className="notice centered-notice">
+                New supper menu coming Tuesday morning. Join the email list to get it first.
+              </div>
+            )}
           </div>
         </section>
 
         <section className="philosophy" id="chef">
           <div className="section-inner">
             <h2>
-              I spent fifteen years cooking for rooms full of strangers.{" "}
+              I spent twenty years cooking for rooms full of strangers.{" "}
               <span className="script">Now</span> I cook one Sunday supper a week for your table.
             </h2>
             <p className="section-sub" style={{ color: "rgba(255,250,240,.78)" }}>
@@ -163,7 +196,7 @@ export default async function HomePage() {
             <div className="cards-grid">
               <div className="info-card">
                 <h3>Reserve by Saturday</h3>
-                <p>A new menu drops every Monday. Ordering closes automatically at 4:00 PM ET.</p>
+                <p>A new menu drops every Tuesday morning. Ordering closes automatically Saturday at 4:00 PM ET.</p>
               </div>
               <div className="info-card">
                 <h3>Cook, plate, pack</h3>
@@ -171,9 +204,38 @@ export default async function HomePage() {
               </div>
               <div className="info-card">
                 <h3>Pickup and sit down</h3>
-                <p id="pickup">{menu?.pickupNotes ?? "Pickup Sunday, 5-6pm ET."}</p>
+                <p id="pickup">{menu?.pickupNotes ?? "Pickup Sunday, 5-6 PM ET."}</p>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className="section signup-section paper blossom-section" id="signup">
+          <img className="branch-accent branch-accent-right branch-accent-soft" src="/design-assets/logobranch.png" alt="" />
+          <div className="section-inner signup-inner">
+            <div>
+              <div className="section-eyebrow">Tuesday mornings</div>
+              <h2 className="section-title">
+                Get the <span className="script">menu</span> first.
+              </h2>
+              <p className="section-sub">
+                Weekly supper menus, special offers, private dining notes, and upcoming events sent
+                straight to your inbox.
+              </p>
+            </div>
+            <form className="signup-form" action={subscribeToMenuEmails}>
+              <div className="field">
+                <label htmlFor="signupFirstName">First name</label>
+                <input id="signupFirstName" name="firstName" placeholder="First name" />
+              </div>
+              <div className="field">
+                <label htmlFor="signupEmail">Email</label>
+                <input id="signupEmail" name="email" type="email" placeholder="you@example.com" required />
+              </div>
+              <button className="btn-primary" type="submit">
+                Send me Tuesday menus
+              </button>
+            </form>
           </div>
         </section>
 
@@ -187,7 +249,7 @@ export default async function HomePage() {
                   Catering by <span className="script">Chef David</span>
                 </h2>
                 <p className="section-sub">
-                  Supper club sensibility for birthdays, rehearsal dinners, office gatherings, and
+                  Supper club sensibility for birthdays, rehearsal suppers, office gatherings, and
                   special tables across Macon. Send the basics and we will shape the menu around the
                   room, the season, and your budget.
                 </p>
@@ -239,9 +301,9 @@ export default async function HomePage() {
                       <option value="" disabled>
                         Select one
                       </option>
-                      <option>Private dinner</option>
+                      <option>Private supper</option>
                       <option>Birthday</option>
-                      <option>Rehearsal dinner</option>
+                      <option>Rehearsal supper</option>
                       <option>Corporate meal</option>
                       <option>Pickup catering</option>
                       <option>Other</option>

@@ -29,6 +29,14 @@ export default async function AdminPage() {
     .then((items) => ({ items, ready: true }))
     .catch(() => ({ items: [], ready: false }));
   const inquiries = inquiryResult.items;
+  const subscriberResult = await (prisma as any).emailSubscriber
+    .findMany({
+      orderBy: { createdAt: "desc" },
+      take: 100,
+    })
+    .then((items: any[]) => ({ items, ready: true }))
+    .catch(() => ({ items: [], ready: false }));
+  const subscribers = subscriberResult.items;
 
   const paidTotal = orders
     .filter((order) => order.status === "PAID")
@@ -73,6 +81,13 @@ export default async function AdminPage() {
             <h2>{inquiryResult.ready ? inquiries.length : "Setup"}</h2>
             <p className="muted">
               {inquiryResult.ready ? "Recent private event inquiries" : "Database table needed"}
+            </p>
+          </div>
+          <div className="admin-card">
+            <div className="admin-kicker">Email list</div>
+            <h2>{subscriberResult.ready ? subscribers.length : "Setup"}</h2>
+            <p className="muted">
+              {subscriberResult.ready ? "Menu subscribers" : "Database table needed"}
             </p>
           </div>
         </div>
@@ -128,6 +143,40 @@ export default async function AdminPage() {
                     </td>
                     <td>{inquiry.budget || <span className="muted">TBD</span>}</td>
                     <td>{inquiry.notes || <span className="muted">None</span>}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </section>
+
+        <section className="admin-card stack">
+          <div>
+            <div className="admin-kicker">Email list</div>
+            <h2>Menu subscribers</h2>
+          </div>
+          {!subscriberResult.ready ? (
+            <div className="notice">
+              Email signup storage still needs to be created in Neon. The signup design is live,
+              but subscribers cannot be saved until that table exists.
+            </div>
+          ) : (
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Source</th>
+                  <th>Joined</th>
+                </tr>
+              </thead>
+              <tbody>
+                {subscribers.map((subscriber: any) => (
+                  <tr key={subscriber.id}>
+                    <td>{subscriber.firstName || <span className="muted">Not provided</span>}</td>
+                    <td>{subscriber.email}</td>
+                    <td>{subscriber.source}</td>
+                    <td>{displayDate(subscriber.createdAt)}</td>
                   </tr>
                 ))}
               </tbody>

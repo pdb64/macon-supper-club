@@ -85,6 +85,15 @@ model CateringInquiry {
   updatedAt    DateTime      @updatedAt
 }
 
+model EmailSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  firstName String?
+  source    String   @default("homepage")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum MenuStatus {
   DRAFT
   PUBLISHED

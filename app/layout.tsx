@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Macon Supper Club",
-  description: "Weekly Sunday suppers by Chef David Bartlett in Macon, Georgia.",
+  description: "Chef-driven weekly suppers, private dining, and catered events in Middle Georgia.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -13,4 +13,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
-
