@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
 import { dollarsToCents } from "@/lib/money";
 import { getOrderingState, getPortion } from "@/lib/ordering";
+import { getOrderingOverride } from "@/lib/site";
 
 export async function POST(request: Request) {
   const form = await request.formData();
@@ -22,8 +23,12 @@ export async function POST(request: Request) {
 
   const menu = await prisma.menu.findUnique({ where: { id: menuId } });
   const ordering = getOrderingState(menu);
-  if (!ordering.open || !menu) {
-    return NextResponse.json({ error: ordering.reason }, { status: 409 });
+  const orderingOverride = await getOrderingOverride();
+  if (!ordering.open || orderingOverride.closed || !menu) {
+    return NextResponse.json(
+      { error: orderingOverride.message || ordering.reason },
+      { status: 409 },
+    );
   }
 
   const portion = getPortion(portionId);
@@ -111,4 +116,3 @@ export async function POST(request: Request) {
 
   return NextResponse.redirect(session.url ?? `${siteUrl}/success`, 303);
 }
-

@@ -220,6 +220,15 @@ h1 {
   padding: 16px 18px;
 }
 
+.saturday-banner.closing-soon {
+  border-color: rgba(156, 120, 49, 0.58);
+  background: rgba(255, 250, 240, 0.88);
+}
+
+.saturday-banner.closed {
+  border-color: rgba(157, 56, 47, 0.34);
+}
+
 .sb-dot {
   width: 10px;
   height: 10px;
@@ -746,6 +755,12 @@ textarea {
 
 .admin-card {
   background: white;
+}
+
+.admin-subpanel {
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 18px 0;
 }
 
 .admin-card h2,

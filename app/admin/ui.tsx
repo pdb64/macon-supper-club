@@ -1,6 +1,7 @@
 import {
   addMenuItemAction,
   deleteMenuItemAction,
+  updateOrderingOverrideAction,
   updateMenuAction,
   updateMenuItemAction,
   uploadImageAction,
@@ -25,9 +26,11 @@ function inputDateTime(date: Date) {
 export function MenuEditor({
   menu,
   images,
+  orderingOverride,
 }: {
   menu: Menu & { items: MenuItem[] };
   images: SiteImage[];
+  orderingOverride: { closed: boolean; message: string };
 }) {
   return (
     <section className="admin-card stack">
@@ -69,6 +72,31 @@ export function MenuEditor({
         <div className="field full">
           <button className="btn-primary" type="submit">
             Save menu settings
+          </button>
+        </div>
+      </form>
+
+      <form className="form-grid admin-subpanel" action={updateOrderingOverrideAction}>
+        <div className="field full">
+          <label>Holiday or pause message</label>
+          <input
+            name="overrideMessage"
+            defaultValue={orderingOverride.message}
+            placeholder="Closed this week for a private event. New menu opens Monday."
+          />
+        </div>
+        <label className="row field full" style={{ display: "flex" }}>
+          <input
+            name="overrideClosed"
+            type="checkbox"
+            defaultChecked={orderingOverride.closed}
+            style={{ width: "auto" }}
+          />
+          Pause public ordering and show this message
+        </label>
+        <div className="field full">
+          <button className="btn-secondary" type="submit">
+            Save ordering override
           </button>
         </div>
       </form>

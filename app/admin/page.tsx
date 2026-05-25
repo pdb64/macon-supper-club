@@ -3,6 +3,7 @@ import { requireAdmin } from "@/lib/auth";
 import { formatMoney } from "@/lib/money";
 import { displayCutoff, displayDate } from "@/lib/ordering";
 import { prisma } from "@/lib/prisma";
+import { getOrderingOverride } from "@/lib/site";
 import { MenuEditor } from "./ui";
 
 export default async function AdminPage() {
@@ -19,6 +20,7 @@ export default async function AdminPage() {
     orderBy: { createdAt: "desc" },
     take: 40,
   });
+  const orderingOverride = await getOrderingOverride();
   const inquiries = await prisma.cateringInquiry.findMany({
     orderBy: { createdAt: "desc" },
     take: 50,
@@ -69,7 +71,7 @@ export default async function AdminPage() {
           </div>
         </div>
 
-        {menu && <MenuEditor menu={menu} images={images} />}
+        {menu && <MenuEditor menu={menu} images={images} orderingOverride={orderingOverride} />}
 
         <section className="admin-card stack">
           <div>

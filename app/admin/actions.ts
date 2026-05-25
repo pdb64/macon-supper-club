@@ -67,6 +67,27 @@ export async function updateMenuAction(formData: FormData) {
   revalidatePath("/admin");
 }
 
+export async function updateOrderingOverrideAction(formData: FormData) {
+  const closed = formData.get("overrideClosed") === "on";
+  const message = required(formData.get("overrideMessage"));
+
+  await prisma.$transaction([
+    prisma.setting.upsert({
+      where: { key: "ordering_override_closed" },
+      update: { value: closed ? "true" : "false" },
+      create: { key: "ordering_override_closed", value: closed ? "true" : "false" },
+    }),
+    prisma.setting.upsert({
+      where: { key: "ordering_override_message" },
+      update: { value: message },
+      create: { key: "ordering_override_message", value: message },
+    }),
+  ]);
+
+  revalidatePath("/");
+  revalidatePath("/admin");
+}
+
 export async function updateMenuItemAction(formData: FormData) {
   const itemId = required(formData.get("itemId"));
   await prisma.menuItem.update({

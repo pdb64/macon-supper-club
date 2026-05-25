@@ -1,4 +1,5 @@
-import { getGalleryImages, getPublishedMenu } from "@/lib/site";
+import { OrderingBanner } from "@/app/OrderingBanner";
+import { getGalleryImages, getOrderingOverride, getPublishedMenu } from "@/lib/site";
 import { displayCutoff, displayDate, getOrderingState, PORTIONS } from "@/lib/ordering";
 import { formatMoney } from "@/lib/money";
 import { getInstagramPosts } from "@/lib/instagram";
@@ -12,6 +13,7 @@ export default async function HomePage() {
   const menu = await getPublishedMenu();
   const gallery = await getGalleryImages();
   const instagram = await getInstagramPosts();
+  const orderingOverride = await getOrderingOverride();
   const ordering = getOrderingState(menu);
   const sundayLabel = menu ? displayDate(menu.sundayDate) : "Next Sunday";
   const cutoffLabel = menu ? displayCutoff(menu.cutoffAt) : "Saturday at 4:00 PM ET";
@@ -56,13 +58,15 @@ export default async function HomePage() {
                 A weekly private-chef supper, plated by hand, served the way Macon used to serve
                 dinner: slowly, generously, around a table that belongs to you.
               </p>
-              <div className="saturday-banner">
-                <span className="sb-dot" />
-                <span>
-                  Reservations for <strong>{sundayLabel}</strong> close <strong>{cutoffLabel}</strong>,
-                  or whenever we sell out.
-                </span>
-              </div>
+              <OrderingBanner
+                sundayLabel={sundayLabel}
+                cutoffLabel={cutoffLabel}
+                cutoffIso={menu?.cutoffAt.toISOString()}
+                open={ordering.open && !orderingOverride.closed}
+                reason={ordering.reason}
+                overrideClosed={orderingOverride.closed}
+                overrideMessage={orderingOverride.message}
+              />
               <div className="hero-cta-row">
                 <a className="btn-primary" href="#reserve">
                   Reserve This Sunday
