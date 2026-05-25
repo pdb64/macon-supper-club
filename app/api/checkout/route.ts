@@ -31,9 +31,11 @@ export async function POST(request: Request) {
     );
   }
 
+  const key = process.env.STRIPE_SECRET_KEY;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || new URL(request.url).origin;
   const portion = getPortion(portionId);
   const subtotalCents = portion.priceCents * quantity;
-  const processingFeeCents = Math.round((subtotalCents + tipCents) * 0.035);
+  const processingFeeCents = key ? Math.round((subtotalCents + tipCents) * 0.035) : 0;
   const totalCents = subtotalCents + tipCents + processingFeeCents;
 
   const order = await prisma.order.create({
@@ -54,17 +56,8 @@ export async function POST(request: Request) {
     },
   });
 
-  const key = process.env.STRIPE_SECRET_KEY;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || new URL(request.url).origin;
   if (!key) {
-    return NextResponse.json(
-      {
-        error:
-          "Stripe is not configured yet. Add STRIPE_SECRET_KEY and NEXT_PUBLIC_SITE_URL in .env.",
-        orderId: order.id,
-      },
-      { status: 503 },
-    );
+    return NextResponse.redirect(`${siteUrl}/order-thank-you`, 303);
   }
 
   const stripe = new Stripe(key);

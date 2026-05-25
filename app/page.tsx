@@ -17,6 +17,7 @@ export default async function HomePage() {
   const ordering = getOrderingState(menu);
   const sundayLabel = menu ? displayDate(menu.sundayDate) : "Next Sunday";
   const cutoffLabel = menu ? displayCutoff(menu.cutoffAt) : "Saturday at 4:00 PM ET";
+  const paymentsReady = Boolean(process.env.STRIPE_SECRET_KEY);
 
   return (
     <>
@@ -283,8 +284,9 @@ export default async function HomePage() {
                 Pick your <span className="script">portion</span>
               </h2>
               <p className="section-sub">
-                Full prepayment confirms your Sunday supper. Card checkout is handled securely by
-                Stripe.
+                {paymentsReady
+                  ? "Full prepayment confirms your Sunday supper. Card checkout is handled securely by Stripe."
+                  : "Send a reservation request for now. Online card payment will be turned on once Stripe is connected."}
               </p>
             </div>
 
@@ -343,7 +345,7 @@ export default async function HomePage() {
                 </div>
               </div>
               <button className="btn-primary" type="submit" disabled={!ordering.open}>
-                Continue to secure checkout
+                {paymentsReady ? "Continue to secure checkout" : "Send reservation request"}
               </button>
             </form>
           </div>
