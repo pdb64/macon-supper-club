@@ -51,12 +51,10 @@ export default async function HomePage() {
           <div className="hero-inner">
             <div>
               <div className="eyebrow">Chef David Bartlett · Macon, Georgia</div>
-              <h1>
+              <h1 className="hero-title">
                 Chef-driven dining
                 <br />
-                experiences, made
-                <br />
-                for <span className="script">gathering.</span>
+                experiences, made for <span className="script">gathering.</span>
               </h1>
               <p className="hero-lede">
                 Weekly suppers, private dining, and catered events rooted in Southern hospitality
