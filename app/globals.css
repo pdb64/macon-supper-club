@@ -382,6 +382,12 @@ h1 {
   border-top: 1px solid var(--rule);
 }
 
+.menu-row.without-image {
+  grid-template-columns: 58px 1fr;
+  gap: 24px;
+  padding: 24px 0;
+}
+
 .menu-row:last-child {
   border-bottom: 1px solid var(--rule);
 }
@@ -881,6 +887,10 @@ textarea {
   }
 
   .menu-row {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-row.without-image {
     grid-template-columns: 1fr;
   }
 

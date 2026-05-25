@@ -120,7 +120,7 @@ export function MenuEditor({
             <div className="field full">
               <label>Image</label>
               <select name="imageUrl" defaultValue={item.imageUrl ?? ""}>
-                <option value="">No image</option>
+                <option value="">No image - text only on the public menu</option>
                 {images.map((image) => (
                   <option value={image.url} key={image.id}>
                     {image.label}
@@ -148,6 +148,14 @@ export function MenuEditor({
       </form>
 
       <form className="form-grid" action={uploadImageAction}>
+        <div className="field full">
+          <div className="admin-kicker">Images</div>
+          <h3>Upload a reusable menu photo</h3>
+          <p className="muted">
+            After uploading, choose it from a course image dropdown above. Courses can also stay
+            text-only and will format cleanly on the public menu.
+          </p>
+        </div>
         <div className="field">
           <label>Image label</label>
           <input name="label" placeholder="Schnitzel plating" />

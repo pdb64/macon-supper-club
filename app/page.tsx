@@ -126,13 +126,9 @@ export default async function HomePage() {
 
             <div className="menu-rows">
               {(menu?.items ?? []).map((item, index) => (
-                <div className="menu-row" key={item.id}>
+                <div className={`menu-row ${item.imageUrl ? "" : "without-image"}`} key={item.id}>
                   <div className="menu-row-num">{String(index + 1).padStart(2, "0")}</div>
-                  {item.imageUrl ? (
-                    <img className="menu-row-img" src={item.imageUrl} alt={item.name} />
-                  ) : (
-                    <div className="menu-row-img" aria-hidden="true" />
-                  )}
+                  {item.imageUrl && <img className="menu-row-img" src={item.imageUrl} alt={item.name} />}
                   <div>
                     <div className="menu-row-title">{item.name}</div>
                     <div className="menu-row-desc">{item.description}</div>
