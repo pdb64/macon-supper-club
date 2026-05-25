@@ -208,7 +208,7 @@ export default async function HomePage() {
                 <div className="form-grid">
                   <div className="field">
                     <label htmlFor="cateringName">Full name</label>
-                    <input id="cateringName" name="customerName" placeholder="Patrick Bartlett" required />
+                    <input id="cateringName" name="customerName" placeholder="Full name" required />
                   </div>
                   <div className="field">
                     <label htmlFor="cateringEmail">Email</label>
@@ -224,7 +224,7 @@ export default async function HomePage() {
                   </div>
                   <div className="field">
                     <label htmlFor="eventTime">Event time</label>
-                    <input id="eventTime" name="eventTime" placeholder="6 PM cocktails, 7 PM dinner" />
+                    <input id="eventTime" name="eventTime" placeholder="6 PM" />
                   </div>
                   <div className="field">
                     <label htmlFor="guestCount">Number of people</label>
@@ -246,11 +246,11 @@ export default async function HomePage() {
                   </div>
                   <div className="field">
                     <label htmlFor="budget">Budget</label>
-                    <input id="budget" name="budget" placeholder="$75/person or $2,500 total" />
+                    <input id="budget" name="budget" placeholder="$75 pp / $2,500" />
                   </div>
                   <div className="field full">
                     <label htmlFor="location">Event address or venue</label>
-                    <input id="location" name="location" placeholder="Home address, venue name, or still deciding" />
+                    <input id="location" name="location" placeholder="Venue, address, or TBD" />
                   </div>
                   <div className="field full">
                     <label htmlFor="cateringNotes">Tell us about the table</label>
@@ -317,7 +317,7 @@ export default async function HomePage() {
                 </div>
                 <div className="field">
                   <label htmlFor="customerName">Full name</label>
-                  <input id="customerName" name="customerName" placeholder="Patrick Bartlett" required disabled={!ordering.open} />
+                  <input id="customerName" name="customerName" placeholder="Full name" required disabled={!ordering.open} />
                 </div>
                 <div className="field">
                   <label htmlFor="customerEmail">Email</label>
@@ -352,26 +352,7 @@ export default async function HomePage() {
               </h2>
             </div>
             <div className="landmarks-lineup">
-              <div className="landmark">
-                <span className="landmark-shape theater" />
-                <strong>Douglass Theatre</strong>
-              </div>
-              <div className="landmark">
-                <span className="landmark-shape mercer" />
-                <strong>Mercer University</strong>
-              </div>
-              <div className="landmark">
-                <span className="landmark-shape big-house" />
-                <strong>The Big House</strong>
-              </div>
-              <div className="landmark">
-                <span className="landmark-shape capricorn" />
-                <strong>Capricorn Records</strong>
-              </div>
-              <div className="landmark">
-                <span className="landmark-shape church" />
-                <strong>St. Joseph's</strong>
-              </div>
+              <MaconLandmarkRibbon />
             </div>
           </div>
         </section>
@@ -429,5 +410,71 @@ export default async function HomePage() {
         </section>
       </main>
     </>
+  );
+}
+
+function MaconLandmarkRibbon() {
+  return (
+    <svg className="landmark-ribbon" viewBox="0 0 980 250" role="img" aria-label="Macon landmark line art">
+      <g className="ribbon-lines">
+        <path d="M20 205 H960" />
+        <path d="M20 214 H960" />
+      </g>
+
+      <g className="landmark-drawing" transform="translate(42 58)">
+        <text x="82" y="148">DOUGLASS</text>
+        <text x="82" y="164">THEATRE</text>
+        <path d="M18 124 H146 V70 H18 Z" />
+        <path d="M26 70 V50 H138 V70" />
+        <path d="M36 50 V34 H128 V50" />
+        <path d="M50 34 V18 H114 V34" />
+        <path d="M38 124 V88 H58 V124 M72 124 V88 H92 V124 M106 124 V88 H126 V124" />
+        <path d="M42 62 H122" />
+      </g>
+
+      <g className="landmark-drawing" transform="translate(232 40)">
+        <text x="74" y="166">MERCER</text>
+        <text x="74" y="182">UNIVERSITY</text>
+        <path d="M30 142 H118 V54 H30 Z" />
+        <path d="M20 142 H128" />
+        <path d="M52 54 L74 18 L96 54" />
+        <path d="M74 18 V0" />
+        <circle cx="74" cy="74" r="13" />
+        <path d="M48 142 V104 H100 V142" />
+        <path d="M56 104 V142 M74 104 V142 M92 104 V142" />
+      </g>
+
+      <g className="landmark-drawing" transform="translate(410 76)">
+        <text x="94" y="130">THE BIG HOUSE</text>
+        <path d="M22 106 H166 V52 H22 Z" />
+        <path d="M10 106 H178" />
+        <path d="M22 52 L94 18 L166 52" />
+        <path d="M50 106 V70 H76 V106 M112 106 V70 H138 V106" />
+        <path d="M82 106 V66 H106 V106" />
+        <path d="M48 48 V34 H64 V42 M124 48 V34 H140 V42" />
+      </g>
+
+      <g className="landmark-drawing" transform="translate(630 78)">
+        <text x="76" y="128">CAPRICORN</text>
+        <text x="76" y="144">RECORDS</text>
+        <path d="M18 104 H134 V38 H18 Z" />
+        <path d="M28 38 V22 H124 V38" />
+        <path d="M34 104 V58 H58 V104 M94 104 V58 H118 V104" />
+        <path d="M66 104 V70 H86 V104" />
+        <path d="M30 50 H122" />
+        <circle cx="76" cy="50" r="8" />
+      </g>
+
+      <g className="landmark-drawing" transform="translate(810 26)">
+        <text x="72" y="180">ST. JOSEPH'S</text>
+        <path d="M16 156 H128 V72 H16 Z" />
+        <path d="M34 72 L48 32 L62 72 M82 72 L96 32 L110 72" />
+        <path d="M48 32 V4 M96 32 V4" />
+        <path d="M40 4 H56 M48 -4 V12 M88 4 H104 M96 -4 V12" />
+        <circle cx="72" cy="100" r="15" />
+        <path d="M72 85 V115 M57 100 H87" />
+        <path d="M54 156 V124 Q72 106 90 124 V156" />
+      </g>
+    </svg>
   );
 }
