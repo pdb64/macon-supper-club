@@ -21,10 +21,14 @@ export default async function AdminPage() {
     take: 40,
   });
   const orderingOverride = await getOrderingOverride();
-  const inquiries = await prisma.cateringInquiry.findMany({
-    orderBy: { createdAt: "desc" },
-    take: 50,
-  });
+  const inquiryResult = await prisma.cateringInquiry
+    .findMany({
+      orderBy: { createdAt: "desc" },
+      take: 50,
+    })
+    .then((items) => ({ items, ready: true }))
+    .catch(() => ({ items: [], ready: false }));
+  const inquiries = inquiryResult.items;
 
   const paidTotal = orders
     .filter((order) => order.status === "PAID")
@@ -66,8 +70,10 @@ export default async function AdminPage() {
           </div>
           <div className="admin-card">
             <div className="admin-kicker">Catering</div>
-            <h2>{inquiries.length}</h2>
-            <p className="muted">Recent private event inquiries</p>
+            <h2>{inquiryResult.ready ? inquiries.length : "Setup"}</h2>
+            <p className="muted">
+              {inquiryResult.ready ? "Recent private event inquiries" : "Database table needed"}
+            </p>
           </div>
         </div>
 
@@ -78,48 +84,55 @@ export default async function AdminPage() {
             <div className="admin-kicker">Catering</div>
             <h2>Private event inquiries</h2>
           </div>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Status</th>
-                <th>Guest</th>
-                <th>Event</th>
-                <th>Budget</th>
-                <th>Notes</th>
-              </tr>
-            </thead>
-            <tbody>
-              {inquiries.map((inquiry) => (
-                <tr key={inquiry.id}>
-                  <td>
-                    <span className="status">{inquiry.status}</span>
-                  </td>
-                  <td>
-                    <strong>{inquiry.customerName}</strong>
-                    <br />
-                    <span className="muted">{inquiry.email}</span>
-                    <br />
-                    <span className="muted">{inquiry.phone}</span>
-                  </td>
-                  <td>
-                    {inquiry.eventType || <span className="muted">Event type TBD</span>}
-                    <br />
-                    <span className="muted">
-                      {inquiry.eventDate ? displayDate(inquiry.eventDate) : "Date TBD"}
-                      {inquiry.eventTime ? ` · ${inquiry.eventTime}` : ""}
-                    </span>
-                    <br />
-                    <span className="muted">
-                      {inquiry.guestCount ? `${inquiry.guestCount} guests` : "Guest count TBD"}
-                      {inquiry.location ? ` · ${inquiry.location}` : ""}
-                    </span>
-                  </td>
-                  <td>{inquiry.budget || <span className="muted">TBD</span>}</td>
-                  <td>{inquiry.notes || <span className="muted">None</span>}</td>
+          {!inquiryResult.ready ? (
+            <div className="notice">
+              Catering inquiry storage still needs to be created in Neon. The rest of admin is
+              available now.
+            </div>
+          ) : (
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  <th>Guest</th>
+                  <th>Event</th>
+                  <th>Budget</th>
+                  <th>Notes</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {inquiries.map((inquiry) => (
+                  <tr key={inquiry.id}>
+                    <td>
+                      <span className="status">{inquiry.status}</span>
+                    </td>
+                    <td>
+                      <strong>{inquiry.customerName}</strong>
+                      <br />
+                      <span className="muted">{inquiry.email}</span>
+                      <br />
+                      <span className="muted">{inquiry.phone}</span>
+                    </td>
+                    <td>
+                      {inquiry.eventType || <span className="muted">Event type TBD</span>}
+                      <br />
+                      <span className="muted">
+                        {inquiry.eventDate ? displayDate(inquiry.eventDate) : "Date TBD"}
+                        {inquiry.eventTime ? ` · ${inquiry.eventTime}` : ""}
+                      </span>
+                      <br />
+                      <span className="muted">
+                        {inquiry.guestCount ? `${inquiry.guestCount} guests` : "Guest count TBD"}
+                        {inquiry.location ? ` · ${inquiry.location}` : ""}
+                      </span>
+                    </td>
+                    <td>{inquiry.budget || <span className="muted">TBD</span>}</td>
+                    <td>{inquiry.notes || <span className="muted">None</span>}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </section>
 
         <section className="admin-card stack">
